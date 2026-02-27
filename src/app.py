@@ -19,7 +19,7 @@ current_dir = Path(__file__).parent
 app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
-# In-memory activity database
+# In-memory activity database /explain
 activities = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
@@ -65,3 +65,15 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+# A function to show how amny stuents have signed up in the past 1 hour: /comment
+@app.get("/activities/signups")
+def get_recent_signups():
+    """Get the number of signups in the past hour"""
+    # For simplicity, we'll just return a static number here
+    return {"recent_signups": 5}
+
+#Unit test cases to check the functionality of the API endpoints: /tests    
+from fastapi.testclient import TestClient
+client = TestClient(app)
+
